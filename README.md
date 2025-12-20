@@ -95,6 +95,9 @@ sudo nmcli connection reload
 </details>
 
 Now shut down the ***'default‑dvm'*** template and restart the ***'sys‑net'*** qube. After the reboot, when it connects to your home network it will automatically use the static IP address you configured. 
+
+## 1.3 Check out
+
 To verify that the static IP address you configured is being used, open a terminal in ***'sys‑net'*** as the root user from a ***'dom0'*** terminal:
 ```
 myqubes@dom0:~$ qvm-run -u root sys-net xfce4-terminal
