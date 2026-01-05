@@ -2,7 +2,7 @@
 ## 1.1 Introduction
 This guide is intended to set up a static IP address and a cloned MAC address on your operating system **Qubes**. Since the qube ***'sys‑net'*** utilizes the default ***'default‑dvm'***, every time sys‑net reboots it will erase all of your settings, because you are connecting to your network via ***'sys‑net'***. The goal is to block, on your modem, all new connections that could allow a threat actor to access your network and to permit only the trusted one to connect, this cannot be achieved using the default configuration provided by the qube, so to accomplish it we need to set up a static IP address and a MAC address that is not the real one, allowing us to tell our modem to trust the cloned MAC address and the static IP address without compromising privacy and security.
 
-## 1.2 Setting UP
+# 2.0 Setting UP
 Locate the template used by the ***'sys‑net'*** qube. By default it runs on the ***'default‑dvm'*** template, which should be based on a fedora template.
 Open a terminal in ***'dom0'*** and run the following command to launch a root shell inside the ***'default‑dvm'*** qube:
 ```
@@ -23,8 +23,8 @@ Inside the following script we need to change the following variables:
 - `{$DNS1}` & `{$DNS2}`: Write the DNS server you wan to use. If you want to use the DNS provided by your modem, just enter the modem’s IP address.
 
 ```shell
-sudo touch "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
-echo """
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo touch "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ echo """
 [connection]
 id={$SSID}
 type=wifi
@@ -50,18 +50,18 @@ addr-gen-mode=stable-privacy
 method=auto
 """ | sudo tee -a "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
 
-sudo chown root:root "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
-sudo chmod 600 "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
-sudo nmcli connection reload
-sudo nmcli connection up {$SSID}
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo chown root:root "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo chmod 600 "/etc/NetworkManager/system-connections/{$SSID}.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo nmcli connection reload
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo nmcli connection up {$SSID}
 ```
 
 <details>
 <summary>Here is a complete example of the script:</summary>
 
 ```shell
-sudo touch "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
-echo """
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo touch "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ echo """
 [connection]
 id=HomeNetwork
 type=wifi
@@ -87,16 +87,16 @@ addr-gen-mode=stable-privacy
 method=auto
 """ | sudo tee -a "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
 
-sudo chown root:root "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
-sudo chmod 600 "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
-sudo nmcli connection reload
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo chown root:root "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo chmod 600 "/etc/NetworkManager/system-connections/HomeNetwork.nmconnection"
+Pv0t-default-dvm[/static-IP-address-qubesOS]$ sudo nmcli connection reload
 ```
 
 </details>
 
 Now shut down the ***'default‑dvm'*** template and restart the ***'sys‑net'*** qube. After the reboot, when it connects to your home network it will automatically use the static IP address you configured. 
 
-## 1.3 Check out
+## 2.1 Check out
 
 To verify that the static IP address you configured is being used, open a terminal in ***'sys‑net'*** as the root user from a ***'dom0'*** terminal:
 ```
